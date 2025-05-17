@@ -236,6 +236,102 @@
           padding: 20px;
         }
       }
+
+      @media (max-width: 1200px) {
+        .books-container {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .book {
+          width: 100%;
+        }
+
+        .book-card {
+          height: auto;
+          flex-direction: column;
+          padding: 20px;
+        }
+
+        .book-card .cover-container {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .add-books {
+          gap: 10px;
+        }
+
+        .add-books button {
+          width: 50%;
+        }
+        .add-books h1 {
+          width: 50%;
+        }
+
+        .books-container {
+          grid-template-columns: 1fr;
+          margin: 0 10px;
+        }
+
+        .book {
+          flex-direction: column;
+          height: auto;
+        }
+
+        .book-side {
+          gap: 10px;
+        }
+
+        .discrebtion {
+          width: 100%;
+        }
+
+        .book-detail {
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        #book-form,
+        .edit-book-details {
+          width: 100%;
+        }
+
+        #edit-form {
+          flex-direction: column;
+          gap: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .book-card {
+          padding: 15px;
+        }
+
+        .edit-book-cover {
+          width: 100%;
+          height: auto;
+        }
+
+        .book-card .discription {
+          font-size: 14px;
+        }
+
+        .nav-links a {
+          font-size: 12px;
+        }
+
+        .remove {
+          padding: 8px;
+        }
+        .add-books button {
+          width: 50%;
+        }
+        .add-books h1 {
+          width: 50%;
+        }
+      }
     </style>
   </head>
   <body>
@@ -386,8 +482,8 @@
 
     <script>
       function detailsBook(button) {
-        console.log('Clicked view details');
-        const bookElement = button.closest('.book');
+        console.log("Clicked view details");
+        const bookElement = button.closest(".book");
         const bookId = Number(bookElement.dataset.id);
 
         const currentBook = {
@@ -400,24 +496,24 @@
 
         console.log(currentBook);
 
-        document.getElementById('edit-title').textContent = currentBook.title;
-        document.getElementById('edit-author').textContent = currentBook.author;
-        document.getElementById('edit-description').textContent =
+        document.getElementById("edit-title").textContent = currentBook.title;
+        document.getElementById("edit-author").textContent = currentBook.author;
+        document.getElementById("edit-description").textContent =
           currentBook.description;
-        document.getElementById('edit-cover').src = currentBook.coverImg;
+        document.getElementById("edit-cover").src = currentBook.coverImg;
 
         document
-          .getElementById('edit-form')
-          .setAttribute('data-book-id', bookId);
+          .getElementById("edit-form")
+          .setAttribute("data-book-id", bookId);
 
-        document.getElementById('edit-popup').style.display = 'block';
-        document.body.classList.add('no-scroll');
+        document.getElementById("edit-popup").style.display = "block";
+        document.body.classList.add("no-scroll");
       }
 
       function closePopup() {
-        const popup = document.getElementById('edit-popup');
-        popup.style.display = 'none';
-        document.body.classList.remove('no-scroll');
+        const popup = document.getElementById("edit-popup");
+        popup.style.display = "none";
+        document.body.classList.remove("no-scroll");
       }
     </script>
 
