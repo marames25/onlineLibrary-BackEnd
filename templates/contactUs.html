@@ -1,0 +1,41 @@
+{% load static %} {% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Library - Contact Us</title>
+    <link rel="stylesheet" href="{% static 'Styles/contactUs.css' %}" />
+    <link rel="stylesheet" href="{% static 'Styles/header.css' %}" />
+    <link
+      rel="shortcut icon"
+      href="Imgs/stack-of-books.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <nav id="header"></nav>
+
+    <main class="contact-container">
+      <div class="contact-content">
+        <section class="contact-info slide-in-right">
+          <h2>Other Ways to Reach Us</h2>
+          <div class="info-card">
+            <h3>Email</h3>
+            <p>maramesmaeil353@gmail.com</p>
+          </div>
+          <div class="info-card">
+            <h3>Phone</h3>
+            <p>01002523818</p>
+            <p>Mon-Fri: 9am-5pm</p>
+          </div>
+          <div class="info-card">
+            <h3>Visit Us</h3>
+            <p>Ahmed Zewil st. FCAI</p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

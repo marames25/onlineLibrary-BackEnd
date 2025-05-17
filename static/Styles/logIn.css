@@ -1,0 +1,157 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #fff;
+}
+.img-container {
+  text-align: center;
+}
+.form-container {
+  position: relative;
+  background: #fff;
+
+  padding: 40px;
+  width: 600px;
+}
+
+.back {
+  width: 20px;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+}
+.img-logo {
+  width: 160px;
+  margin-bottom: 10px;
+}
+.form-header h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.form-header p {
+  font-size: 14px;
+  color: #535353;
+  margin-bottom: 20px;
+}
+.input-container {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #4a4a4a;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  outline: none;
+}
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.show-pass {
+  position: absolute;
+  background-color: #fff;
+  right: 10px;
+  top: 12px;
+  border: none;
+  cursor: pointer;
+}
+.show-pass img {
+  width: 20px;
+}
+.submit {
+  width: 100%;
+  padding: 12px;
+  background-color: #6b6c4a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.submit:hover {
+  background-color: #565839;
+}
+
+.remem {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.remem div {
+  width: 130px;
+  display: flex;
+  justify-content: flex-start;
+  text-align: center;
+}
+.remem div label {
+  font-size: 13px;
+}
+.remem div input {
+  width: 20px;
+  accent-color: #6b6c4a;
+  cursor: pointer;
+}
+.remem a {
+  color: #6b6c4a;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 13px;
+}
+.remem a:hover {
+  text-decoration: underline;
+}
+
+.log-in {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.log-in a {
+  width: 50%;
+}
+.error-message {
+  margin-top: 10px;
+  color: red;
+  font-size: 14px;
+  display: none;
+}
+@media (max-width: 500px) {
+  .form-container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .log-in {
+    flex-direction: column;
+  }
+
+  .log-in a {
+    width: 100%;
+  }
+}

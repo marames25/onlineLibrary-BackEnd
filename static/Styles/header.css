@@ -1,0 +1,166 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+nav {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  margin-top: 14px;
+  margin-bottom: 45px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+nav img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+nav h2 {
+  color: #6b6c4a;
+}
+
+.btns {
+  display: flex;
+  gap: 10px;
+}
+
+nav .btns .home,
+nav .btns .exp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 35px;
+  width: 120px;
+  height: 35px;
+  text-decoration: none;
+}
+
+.home {
+  background-color: black;
+  color: white;
+  font-size: 13px;
+}
+
+.exp {
+  background-color: #b8b8b8;
+  color: black;
+  font-size: 13px;
+  text-align: center;
+}
+
+.exp img {
+  width: 35px;
+  height: 35px;
+  margin-right: -10px;
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 0;
+  border: 1px solid rgb(182, 182, 182);
+  width: 450px;
+  height: 35px;
+  border-radius: 35px;
+}
+
+.nav-links li {
+  display: inline;
+  font-size: 14px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+.user {
+  cursor: pointer;
+  background-color: #f2f2f2;
+  border-radius: 50%;
+  border: 1px solid black;
+  margin-right: 7px;
+  padding: 5px;
+  width: 35px;
+  height: 35px;
+}
+
+.user img {
+  width: 22px;
+  height: 22px;
+}
+
+.nav-side {
+  display: flex;
+  gap: 5px;
+}
+
+.search-bar {
+  position: relative;
+  width: 550px;
+}
+
+.search-bar input {
+  width: 100%;
+  height: 40px;
+  padding: 0 40px;
+  border-radius: 49px;
+  border: 1px solid #a9a9a9;
+  outline: none;
+}
+
+.search-ic {
+  position: absolute;
+  left: 8px;
+  top: 7px;
+  width: 20px;
+  height: 20px;
+}
+
+.profile-menu {
+  position: relative;
+}
+
+.profile-menu-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-width: 150px;
+  z-index: 100;
+}
+.profile-menu-content a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+}
+.profile-menu-content a:hover {
+  background-color: #6b6c4a;
+  color: white;
+}
+
+.profile-menu:hover .profile-menu-content {
+  display: block;
+}

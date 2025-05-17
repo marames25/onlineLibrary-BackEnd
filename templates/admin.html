@@ -1,0 +1,228 @@
+{% load static %} {% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Online Library</title>
+    <link rel="stylesheet" href="{% static 'Styles/admin.css' %}" />
+    <link rel="stylesheet" href="{% static 'Styles/header.css' %}" />
+    <link
+      rel="shortcut icon"
+      href="{% static 'Imgs/stack-of-books.png' %}"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <div class="add-books">
+      <h1>Available Books</h1>
+      <button onclick="addBook()" id="add-books-btn">Add Book</button>
+    </div>
+
+    <!-- Add Book Popup -->
+    <div class="black" id="add-book-popup" style="display: none">
+      <div class="book-card">
+        <button class="close-btn" onclick="closeAddBookPopup()">
+          <img src="{% static 'Imgs/close.png' %}" class="close-img" />
+        </button>
+        <div class="book-detail add-book-details">
+          <h2>Add New Book</h2>
+          <form
+            method="post"
+            enctype="multipart/form-data"
+            action="{% url 'add_book' %}"
+          >
+            {% csrf_token %} {{ add_form.as_p }}
+            <button type="submit">Add Book</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Book List -->
+    <div class="books-container">
+      {% for book in books %}
+      <div class="book" data-id="{{ book.id }}">
+        {% if book.cover %}
+        <img
+          src="{{ book.cover.url }}"
+          class="book-cover"
+          alt="Cover for {{ book.title }}"
+        />
+        {% else %}
+        <img
+          src="{% static 'Imgs/default_cover.png' %}"
+          class="book-cover"
+          alt="No cover available"
+        />
+        {% endif %}
+        <div class="book-side">
+          <div class="title">
+            <h2>{{ book.title }}</h2>
+            <button class="edit-book" onclick="editBook(this)">
+              <img src="{% static 'Imgs/editing.png' %}" class="edit-icon" />
+            </button>
+          </div>
+          <h4 class="auther">{{ book.author }}</h4>
+          <p
+            class="description"
+            style="
+              font-size: 12px;
+              line-height: 1.6;
+              width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 4;
+              -webkit-box-orient: vertical;
+            "
+          >
+            {{ book.description }}
+          </p>
+          <div class="id">
+            <p>ID: {{ book.id }}</p>
+          </div>
+          <!-- Delete Form -->
+          <form
+          method="post"
+          action="{% url 'delete_book' book.id %}"
+          id="delete-form-{{ book.id }}"
+        >
+          {% csrf_token %}
+          <button type="submit" class="remove">Delete Book</button>
+        </form>
+        </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Edit Book Popup -->
+    <div
+      class="black"
+      id="edit-popup"
+      style="display: none; justify-content: center; align-items: center"
+    >
+      <div class="book-card">
+        <button class="close-btn" onclick="closePopup()">
+          <img src="{% static 'Imgs/close.png' %}" class="close-img" />
+        </button>
+        <form
+          method="post"
+          id="edit-form"
+          action="{% url 'edit_book' %}"
+          enctype="multipart/form-data"
+          style="
+            display: flex;
+            width: 90%;
+            margin: 7% auto 0;
+            gap: 20px;
+            flex-wrap: wrap;
+          "
+        >
+          {% csrf_token %}
+          <div
+            class="edit-book-cover"
+            style="
+              width: 200px;
+              height: 300px;
+              position: relative;
+              display: none;
+              flex-direction: column;
+              gap: 10px;
+            "
+          >
+            <label>Cover URL</label>
+            <input type="image" name="cover_url" id="edit-cover-url" required />
+          </div>
+          <div
+            class="edit-book-details"
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 20px;
+              width: 450px;
+            "
+          >
+            <input type="hidden" name="book_id" id="edit-book-id" />
+            <label for="edit-title" style="color: #666; font-size: 14px"
+              >Book Title</label
+            >
+            <input
+              type="text"
+              name="title"
+              id="edit-title"
+              required
+              autocomplete="off"
+              style="
+                width: 100%;
+                height: 30px;
+                outline: none;
+                border: none;
+                border-bottom: 1px solid #00000064;
+                font-size: 14px;
+              "
+            />
+            <label for="edit-author" style="color: #666; font-size: 14px"
+              >Author</label
+            >
+            <input
+              type="text"
+              name="author"
+              id="edit-author"
+              required
+              autocomplete="off"
+              style="
+                width: 100%;
+                height: 30px;
+                outline: none;
+                border: none;
+                border-bottom: 1px solid #00000064;
+                font-size: 14px;
+              "
+            />
+            <label for="edit-description" style="color: #666; font-size: 14px"
+              >Description</label
+            >
+            <textarea
+              name="description"
+              id="edit-description"
+              required
+              autocomplete="off"
+              style="
+                height: 100px;
+                width: 100%;
+                outline: none;
+                border: none;
+                border-bottom: 1px solid #00000064;
+                font-size: 14px;
+              "
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            style="
+              width: 150px;
+              height: 30px;
+              border-radius: 4px;
+              border: none;
+              background-color: #6b6c4a;
+              color: #fff;
+              cursor: pointer;
+              align-self: center;
+            "
+          >
+            Save changes
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="{% static 'JavaScript/admin.js' %}"></script>
+  </body>
+</html>
+
+
+

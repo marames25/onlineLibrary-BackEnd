@@ -1,0 +1,54 @@
+{% load static %} {% include 'header.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Library - Services</title>
+    <link rel="stylesheet" href="{% static 'Styles/services.css' %}" />
+    <link rel="stylesheet" href="{% static 'Styles/header.css' %}" />
+    <link
+      rel="shortcut icon"
+      href="Imgs/stack-of-books.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <main class="services-container">
+      <section class="hero-section">
+        <h1>Our Library Services</h1>
+        <p>
+          Discover a world of knowledge with our comprehensive digital library
+          services
+        </p>
+      </section>
+
+      <section class="services-grid">
+        <div class="service-card">
+          <h3>E-Book Collection</h3>
+          <p>
+            Browse our extensive catalog of digital books available for
+            immediate access.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <h3>Digital Archives</h3>
+          <p>
+            Access our growing collection of digitized historical documents,
+            photographs, and local records.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <h3>24/7 Access</h3>
+          <p>
+            Our digital resources are available anytime, anywhere. No waiting
+            for library hours.
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

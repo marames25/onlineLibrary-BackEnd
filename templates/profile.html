@@ -1,0 +1,348 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ user.username }}'s Profile</title>
+    <link rel="stylesheet" href="{% static 'Styles/profile.css' %}" />
+    <link rel="stylesheet" href="{% static 'Styles/header.css' %}" />
+    <!-- <link rel="stylesheet" href="{% static 'Styles/BookCard.css' %}" /> -->
+    <link
+      rel="shortcut icon"
+      href="{% static 'Imgs/stack-of-books.png' %}"
+      type="image/x-icon"
+    />
+    <style>
+      .black {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      /* Fixes general popup card appearance */
+      #edit-popup {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .book-card {
+        width: 100%;
+        max-width: 1000px; /* increased from 800px */
+        height: auto;
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 40px; /* increased padding */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        position: relative;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      #edit-form {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+        align-items: flex-start;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* Left - cover image */
+      .edit-book-cover {
+        width: 200px;
+        height: 300px;
+      }
+
+      #edit-cover {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Right - details */
+      .edit-book-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .detail-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .popup-text {
+        padding: 8px 12px;
+        background-color: #f7f7f7;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+        color: #333;
+        word-break: break-word;
+      }
+
+      /* Special styling for description */
+      #edit-description {
+        width: 100%;
+        max-width: 100%;
+        max-height: 300px; /* bigger max height */
+        overflow-y: auto;
+        white-space: normal;
+        padding: 12px 16px;
+        background-color: #f7f7f7;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+        color: #333;
+        word-break: break-word;
+      }
+
+      /* Close button */
+      .close-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border: none;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .close-img {
+        width: 16px;
+        height: 16px;
+      }
+
+      @media (max-width: 768px) {
+        #edit-form {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .edit-book-cover {
+          width: 180px;
+          height: 260px;
+        }
+
+        .book-card {
+          padding: 20px;
+        }
+      }
+
+      .borrowed-heading {
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 12px;
+      }
+
+      .borrowed-heading p {
+        font-weight: 500;
+        font-size: 20px;
+      }
+
+      .borrowed-heading label {
+        font-size: 20.5px;
+        color: #6b6c4ab8;
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'header.html' %}
+
+    <div class="user-details">
+      <img src="{% static 'Imgs/cover photo.png' %}" class="cover-img" />
+      <img src="{% static 'Imgs/pfp.jpeg'%}" class="user-img" />
+      <h2 id="profile-username" class="username">{{ user.username }}</h2>
+    </div>
+
+    <div class="borrowed-heading">
+      <p>Borrowed Books:</p>
+      <label class="num" id="borrowed-count">{{ borrowed_books|length }}</label>
+    </div>
+
+    {% if borrowed_books %}
+    <div class="books-container">
+      {% for book in borrowed_books %}
+      <div
+        class="book"
+        data-id="{{ book.id }}"
+        data-title="{{ book.title|escapejs }}"
+        data-author="{{ book.author|escapejs }}"
+        data-description="{{ book.description|escapejs }}"
+        data-cover="{{ book.cover.url }}"
+      >
+        <img src="{{ book.cover.url }}" class="book-cover" />
+        <div class="book-side">
+          <div class="title">
+            <h2>{{ book.title }}</h2>
+            <form
+              method="post"
+              action="{% if book.id in favourite_book_ids %}{% url 'books:remove_favorite' %}{% else %}{% url 'books:add_favorite' %}{% endif %}"
+              class="fav-form"
+            >
+              {% csrf_token %}
+              <input type="hidden" name="book_id" value="{{ book.id }}" />
+              <button
+                type="submit"
+                class="fav-button"
+                style="background: none; border: none; cursor: pointer"
+              >
+                {% if book.id in favourite_book_ids %}
+                <img
+                  src="{% static 'Imgs/Style=bold.png' %}"
+                  alt="Favorite"
+                  style="width: 24px; height: 24px"
+                />
+                {% else %}
+                <img
+                  src="{% static 'Imgs/Style=linear.png' %}"
+                  alt="Not Favorite"
+                  style="width: 24px; height: 24px"
+                />
+                {% endif %}
+              </button>
+            </form>
+          </div>
+          <h4 class="author">{{ book.author }}</h4>
+          <p
+            class="description"
+            style="
+              font-size: 12px;
+              line-height: 1.6;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 4;
+              -webkit-box-orient: vertical;
+            "
+          >
+            {{ book.description }}
+          </p>
+          <div class="id"><p>ID: {{ book.id }}</p></div>
+          <div class="btns">
+            <button
+              class="details"
+              onclick="detailsBook(this)"
+              style="
+                border: 1.5px solid #6b6c4a;
+                color: #6b6c4a;
+                width: 100%;
+                padding: 10px;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: 0.3s;
+                font-size: 14px;
+              "
+            >
+              View Details
+            </button>
+
+            <form method="post" action="{% url 'books:borrow_book' %}">
+              {% csrf_token %}
+              <input type="hidden" name="book_id" value="{{ book.id }}" />
+              <button
+                type="submit"
+                style="background-color: #939476; border: none; color: #fff"
+                class="{% if book.id in borrowed_book_ids %}borrowed{% else %}borrow{% endif %}"
+              >
+                Borrowed
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div style="padding: 0 20px">
+      <p>You have no borrowed books.</p>
+    </div>
+    {% endif %}
+
+    <!-- View Details popup -->
+    <div class="black" id="edit-popup" style="display: none">
+      <div class="book-card">
+        <button class="close-btn" onclick="closePopup()">
+          <img src="{% static 'Imgs/close.png' %}" class="close-img" />
+        </button>
+        <form id="edit-form">
+          <div class="edit-book-cover">
+            <img src="Imgs/" id="edit-cover" />
+          </div>
+          <div class="edit-book-details">
+            <div class="detail-group">
+              <label for="edit-title">Book Title</label>
+              <p id="edit-title" class="popup-text">—</p>
+            </div>
+
+            <div class="detail-group">
+              <label for="edit-author">Author</label>
+              <p id="edit-author" class="popup-text">—</p>
+            </div>
+
+            <div class="detail-group">
+              <label for="edit-description">Description</label>
+              <div id="edit-description" class="popup-text">—</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function detailsBook(button) {
+        const bookElement = button.closest('.book');
+        const bookId = Number(bookElement.dataset.id);
+
+        const currentBook = {
+          id: bookId,
+          title: bookElement.dataset.title,
+          author: bookElement.dataset.author,
+          description: bookElement.dataset.description,
+          coverImg: bookElement.dataset.cover,
+        };
+
+        document.getElementById('edit-title').textContent = currentBook.title;
+        document.getElementById('edit-author').textContent = currentBook.author;
+        document.getElementById('edit-description').textContent =
+          currentBook.description;
+        document.getElementById('edit-cover').src = currentBook.coverImg;
+
+        document
+          .getElementById('edit-form')
+          .setAttribute('data-book-id', bookId);
+
+        document.getElementById('edit-popup').style.display = 'block';
+      }
+
+      function closePopup() {
+        const popup = document.getElementById('edit-popup');
+        popup.style.display = 'none';
+      }
+    </script>
+  </body>
+</html>

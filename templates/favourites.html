@@ -1,0 +1,434 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Favorite Books</title>
+    <link rel="stylesheet" href="{% static 'Styles/books.css' %}" />
+    <link rel="stylesheet" href="{% static 'Styles/header.css' %}" />
+    <link
+      rel="shortcut icon"
+      href="{% static 'Imgs/stack-of-books.png' %}"
+      type="image/x-icon"
+    />
+    <style>
+      .books-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 0.5fr;
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+
+      .book {
+        width: 475px;
+        height: 229px;
+        background-color: #fff;
+        margin-bottom: 24px;
+        border-radius: 12px;
+        display: flex;
+        gap: 20px;
+        padding: 16px;
+      }
+
+      .book-cover {
+        width: 140px;
+        border: 0.5px solid #00000064;
+        border-radius: 3px;
+      }
+      .book-side {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+      }
+      .title {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .auther {
+        font-size: 11px;
+        color: #00000090;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 5%;
+      }
+      .buttons {
+        display: flex;
+        gap: 5%;
+      }
+
+      .id {
+        display: inline-block;
+        font-size: 10px;
+        padding: 4px 8px;
+        border: 1px solid #00000090;
+        border-radius: 14px;
+        color: #6b6c4a;
+        background-color: #f3f3f3;
+        width: fit-content;
+      }
+      .borrow {
+        background-color: #656647;
+        border: none;
+        cursor: pointer;
+        color: #fff;
+        width: 50%;
+        border-radius: 4px;
+      }
+
+      .disabled-borrow {
+        background-color: #e0e0e0;
+        border: 1px solid #bdbdbd;
+        color: #9e9e9e;
+        cursor: pointer;
+        opacity: 0.95;
+        width: 50%;
+        border-radius: 4px;
+      }
+
+      .borrow:hover {
+        background-color: #7a7a55;
+      }
+
+      .details {
+        border: 1.5px solid #6b6c4a;
+        color: #6b6c4a;
+        height: 30px;
+        width: 50%;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .details:hover {
+        background-color: #d3d1d1;
+      }
+      .black {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      #edit-popup {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .book-card {
+        width: 90%;
+        max-width: 1000px; /* increased from 800px */
+        height: auto;
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 40px; /* increased padding */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        position: relative;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      #edit-form {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+        align-items: flex-start;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* Left - cover image */
+      .edit-book-cover {
+        width: 200px;
+        height: 300px;
+      }
+
+      #edit-cover {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Right - details */
+      .edit-book-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .detail-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .popup-text {
+        padding: 8px 12px;
+        background-color: #f7f7f7;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+        color: #333;
+        word-break: break-word;
+      }
+
+      /* Special styling for description */
+      #edit-description {
+        width: 100%;
+        max-width: 100%;
+        max-height: 300px; /* bigger max height */
+        overflow-y: auto;
+        white-space: normal;
+        padding: 12px 16px;
+        background-color: #f7f7f7;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+        color: #333;
+        word-break: break-word;
+      }
+
+      /* Close button */
+      .close-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border: none;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .close-img {
+        width: 16px;
+        height: 16px;
+      }
+
+      @media (max-width: 768px) {
+        #edit-form {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .edit-book-cover {
+          width: 180px;
+          height: 260px;
+        }
+
+        .book-card {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'header.html' %}
+
+    <div class="favourites">
+      <div class="available-books" style="padding: 0 20px">
+        <h2 style="font-weight: bold; color: black">Favourites</h2>
+        <label class="num" id="favourite-count"
+          >{{ favourite_books.count }}</label
+        >
+      </div>
+    </div>
+
+    <div class="books-container">
+      {% if favourite_books %} {% for fav_book in favourite_books %}
+      <div
+        class="book"
+        data-id="{{ fav_book.id }}"
+        data-data-index="{{ fav_book.id }}"
+        data-id="{{ fav_book.id }}"
+        data-title="{{ fav_book.title|escapejs }}"
+        data-author="{{ fav_book.author|escapejs }}"
+        data-description="{{ fav_book.description|escapejs }}"
+        data-cover="{{ fav_book.cover.url }}"
+      >
+        {% if fav_book.cover %}
+        <img
+          src="{{ fav_book.cover.url }}"
+          class="book-cover"
+          alt="Cover for {{ book.title }}"
+        />
+        {% else %}
+        <img
+          src="{% static 'Imgs/default_cover.png' %}"
+          class="book-cover"
+          alt="No cover available"
+        />
+        {% endif %}
+        <div class="book-side">
+          <div class="title">
+            <h2>{{ fav_book.title }}</h2>
+            <form
+              method="post"
+              action="{% url 'books:remove_favorite' %}"
+              class="fav-form"
+            >
+              {% csrf_token %}
+              <input type="hidden" name="book_id" value="{{ fav_book.id }}" />
+              <button
+                type="submit"
+                class="fav-button"
+                style="
+                  width: 24px;
+                  height: 24px;
+                  border: none;
+                  cursor: pointer;
+                  background-color: #ffffff00;
+                "
+                title="Remove from favorites"
+              >
+                <img
+                  src="{% static 'Imgs/Style=bold.png' %}"
+                  alt="Favorite"
+                  class="fav"
+                  style="width: 24px; height: 24px"
+                />
+              </button>
+            </form>
+          </div>
+          <h4 class="auther">{{ fav_book.author }}</h4>
+          <p
+            class="description"
+            style="
+              font-size: 12px;
+              line-height: 1.6;
+              width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 4;
+              -webkit-box-orient: vertical;
+            "
+          >
+            {{ fav_book.description|linebreaksbr }}
+          </p>
+          <div class="id">
+            <p>ID: {{ fav_book.id }}</p>
+          </div>
+          <div class="buttons" style="display: flex">
+            <button class="details" onclick="detailsBook(this)">
+              View Details
+            </button>
+
+            <form
+              method="post"
+              action="{% url 'books:borrow_book' %}"
+              style="width: 100%; height: 100%"
+            >
+              {% csrf_token %}
+              <input type="hidden" name="book_id" value="{{ fav_book.id }}" />
+              <button
+                style="width: 100%; height: 100%"
+                type="submit"
+                class="{% if fav_book.id in borrowed_book_ids %}disabled-borrow{% else %}borrow{% endif %}"
+              >
+                {% if fav_book.id in borrowed_book_ids %} Borrowed {% else %}
+                Borrow Book {% endif %}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endfor %}{% else %}
+      <div style="padding: 0 20px">
+        <p>No favorite books yet.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- View Details popup -->
+    <div class="black" id="edit-popup" style="display: none">
+      <div class="book-card">
+        <button class="close-btn" onclick="closePopup()">
+          <img src="{% static 'Imgs/close.png' %}" class="close-img" />
+        </button>
+        <form id="edit-form">
+          <div class="edit-book-cover">
+            <img src="Imgs/" id="edit-cover" />
+          </div>
+          <div class="edit-book-details">
+            <div class="detail-group">
+              <label for="edit-title">Book Title</label>
+              <p id="edit-title" class="popup-text">—</p>
+            </div>
+
+            <div class="detail-group">
+              <label for="edit-author">Author</label>
+              <p id="edit-author" class="popup-text">—</p>
+            </div>
+
+            <div class="detail-group">
+              <label for="edit-description">Description</label>
+              <div id="edit-description" class="popup-text">—</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function detailsBook(button) {
+        console.log('Clicked view details');
+        const bookElement = button.closest('.book');
+        const bookId = Number(bookElement.dataset.id);
+
+        const currentBook = {
+          id: bookId,
+          title: bookElement.dataset.title,
+          author: bookElement.dataset.author,
+          description: bookElement.dataset.description,
+          coverImg: bookElement.dataset.cover,
+        };
+
+        console.log(currentBook);
+
+        document.getElementById('edit-title').textContent = currentBook.title;
+        document.getElementById('edit-author').textContent = currentBook.author;
+        document.getElementById('edit-description').textContent =
+          currentBook.description;
+        document.getElementById('edit-cover').src = currentBook.coverImg;
+
+        document
+          .getElementById('edit-form')
+          .setAttribute('data-book-id', bookId);
+
+        document.getElementById('edit-popup').style.display = 'block';
+        document.body.classList.add('no-scroll');
+      }
+
+      function closePopup() {
+        const popup = document.getElementById('edit-popup');
+        popup.style.display = 'none';
+        document.body.classList.remove('no-scroll');
+      }
+    </script>
+    <!-- <script src="{% static 'JavaScript/favourites.js' %}"></script> -->
+  </body>
+</html>

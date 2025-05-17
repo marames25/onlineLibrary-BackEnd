@@ -1,0 +1,56 @@
+{% load static %}
+
+<nav id="header">
+  <div class="logo">
+    <img src="{% static 'Imgs/Logo.png' %}" alt="Logo" />
+    <h2>Books</h2>
+  </div>
+
+  <div class="nav-side">
+    <div class="btns">
+      <a
+        href="{% if request.user.is_authenticated and request.user.is_superuser %}{% url 'admin_page' %}{% else %}{% url 'books:book_user_home' %}{% endif %}"
+        class="home"
+        >Home</a
+      >
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="{% url 'books:services' %}">Services</a></li>
+      <li><a href="{% url 'books:about' %}">About</a></li>
+      <li><a href="{% url 'books:contact_us' %}">Contact us</a></li>
+
+      {% if request.user.is_authenticated and not request.user.is_superuser %}
+      <li><a href="{% url 'books:favourites' %}">Favourites</a></li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="search-bar">
+    <form method="get" action="{{ search_action_url|default:request.path }}">
+      <img src="{% static 'Imgs/search-normal.png' %}" class="search-ic" />
+      <input
+        type="text"
+        name="q"
+        placeholder="Search for title, author and category"
+        id="search-input"
+        value="{{ query|default:'' }}"
+        autocomplete="off"
+      />
+    </form>
+  </div>
+
+  {% if request.user.is_authenticated %}
+  <div class="profile-menu">
+    <button class="user">
+      <img src="{% static 'Imgs/user.png' %}" alt="User Icon" />
+    </button>
+    <div class="profile-menu-content">
+      {% if not request.user.is_superuser %}
+      <a href="{% url 'books:profile' %}">View Profile</a>
+      {% endif %}
+      <a href="{% url 'user_management:logout' %}">Logout</a>
+    </div>
+  </div>
+  {% endif %}
+</nav>

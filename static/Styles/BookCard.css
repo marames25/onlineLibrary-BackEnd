@@ -1,0 +1,118 @@
+/* Fixes general popup card appearance */
+#edit-popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.book-card {
+  width: 90%;
+  max-width: 800px;
+  height: auto;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+#edit-form {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Left - cover image */
+.edit-book-cover {
+  width: 200px;
+  height: 300px;
+}
+
+#edit-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Right - details */
+.edit-book-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-text {
+  padding: 8px 12px;
+  background-color: #f7f7f7;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  color: #333;
+  word-break: break-word; /* Prevent overly long words from breaking layout */
+}
+
+/* Special styling for description */
+#edit-description {
+  width: 100%;
+  max-width: 100%;
+  height: 100px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 8px 12px;
+  background-color: #f7f7f7;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-img {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 768px) {
+  #edit-form {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .edit-book-cover {
+    width: 180px;
+    height: 260px;
+  }
+
+  .book-card {
+    padding: 20px;
+  }
+}

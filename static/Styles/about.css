@@ -1,0 +1,152 @@
+body {
+  background-color: #e6e6e6;
+}
+
+.about-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Arial", sans-serif;
+  color: #6b6c4a;
+}
+
+.hero-section p {
+  font-size: 1.3rem;
+  color: #7f8c8d;
+  animation: fadeIn 1.5s ease-out;
+}
+
+.about-content {
+  margin: 60px 0;
+}
+
+.about-card {
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-card h2 {
+  color: #6b6c4a;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.about-card p {
+  line-height: 1.8;
+  color: #555;
+}
+
+.mission-vision {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin: 50px 0;
+}
+
+.mission-card,
+.vision-card {
+  flex: 1;
+  min-width: 300px;
+  padding: 30px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.mission-card {
+  border-top: 4px solid #6b6c4a;
+}
+
+.vision-card {
+  border-top: 4px solid #6b6c4a;
+}
+
+.mission-card h3,
+.vision-card h3 {
+  color: #6b6c4a;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.stats-section {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 60px 0;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-in {
+  background-color: white;
+  animation: fadeIn 1s ease-out;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.8s ease-out;
+}
+
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .mission-vision {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mission-card,
+  .vision-card {
+    width: 100%;
+  }
+
+  .stats-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+}
