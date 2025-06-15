@@ -1,9 +1,11 @@
 function addBook() {
   document.getElementById('add-book-popup').style.display = 'block';
+  document.body.classList.add('no-scroll');
 }
 
 function closeAddBookPopup() {
   document.getElementById('add-book-popup').style.display = 'none';
+  document.body.classList.remove('no-scroll');
 }
 
 function deleteBook(button) {
@@ -30,8 +32,10 @@ function editBook(button) {
   document.getElementById('edit-cover-url').value = '';
 
   document.getElementById('edit-popup').style.display = 'block';
+  document.body.classList.add('no-scroll');
 }
 
 function closePopup() {
   document.getElementById('edit-popup').style.display = 'none';
+  document.body.classList.remove('no-scroll');
 }
