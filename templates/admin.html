@@ -37,6 +37,7 @@
             method="post"
             enctype="multipart/form-data"
             action="{% url 'add_book' %}"
+            id="add-book-form"
           >
             {% csrf_token %} {{ add_form.as_p }}
             <button type="submit">Add Book</button>
@@ -96,7 +97,7 @@
           id="delete-form-{{ book.id }}"
         >
           {% csrf_token %}
-          <button type="submit" class="remove">Delete Book</button>
+          <button type="button" class="remove" onclick="deleteBook(this)">Delete Book</button>
         </form>
         </div>
         </div>
@@ -140,7 +141,7 @@
             "
           >
             <label>Cover URL</label>
-            <input type="image" name="cover_url" id="edit-cover-url" required />
+            <input type="file" name="cover" id="edit-cover-url"  />
           </div>
           <div
             class="edit-book-details"
@@ -225,9 +226,15 @@
       </div>
     </div>
 
+
+    
+      <script>
+      const addBookURL = "{% url 'add_book' %}";
+      const editBookURL = "{% url 'edit_book' %}";
+      const deleteBookBaseURL = "{% url 'delete_book' 0 %}".replace("/0/", "/");
+      console.log(editBookURL)
+    </script>
+
     <script src="{% static 'JavaScript/admin.js' %}"></script>
   </body>
 </html>
-
-
-
