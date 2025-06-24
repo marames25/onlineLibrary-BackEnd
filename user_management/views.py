@@ -51,18 +51,3 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('index')
-
-
-@login_required
-def admin_home(request):
-    return render(request, 'admin.html')
-
-@login_required
-def book_user_home(request):
-    return render(request, 'books.html')
-
-
-
-@login_required
-def profile_view(request):
-    return render(request, 'profile.html')
