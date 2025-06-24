@@ -98,6 +98,9 @@ def add_favorite(request):
         book_id = request.POST.get('book_id')
         book = get_object_or_404(Book, id=book_id)
         FavouriteBook.objects.get_or_create(user=request.user, book=book)
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'status': 'added'})
         return redirect(request.META.get('HTTP_REFERER', 'books:book_user_home'))
 
 @login_required
@@ -106,4 +109,7 @@ def remove_favorite(request):
         book_id = request.POST.get('book_id')
         book = get_object_or_404(Book, id=book_id)
         FavouriteBook.objects.filter(user=request.user, book=book).delete()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({'status': 'removed'})
         return redirect(request.META.get('HTTP_REFERER', 'books:book_user_home'))
