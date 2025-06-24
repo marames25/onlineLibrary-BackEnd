@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Handle borrow/return button
+  // borrow or return AJAX in books.html
+
   document.querySelectorAll('.book form[action$="borrow/"]').forEach((form) => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -35,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Handle favorite toggle
+  // add to favorites or remove AJAX in books.html
+
   document.querySelectorAll('.fav-form').forEach((form) => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
