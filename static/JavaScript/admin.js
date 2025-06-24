@@ -7,6 +7,7 @@ function closeAddBookPopup() {
   document.getElementById('add-book-popup').style.display = 'none';
   document.body.classList.remove('no-scroll');
 }
+// delete book AJAX in admin.html
 
 function deleteBook(button) {
   const bookElement = button.closest('.book');
@@ -51,7 +52,7 @@ function closePopup() {
   document.getElementById('edit-popup').style.display = 'none';
   document.body.classList.remove('no-scroll');
 }
-
+// add book AJAX in admin.html
 document
   .getElementById('add-book-form')
   .addEventListener('submit', function (e) {
@@ -102,6 +103,7 @@ document
   });
 
 
+// edit book AJAX in admin.html
 
 document.getElementById('edit-form').addEventListener('submit', function (e) {
   e.preventDefault();
